@@ -4,11 +4,11 @@ import RecipeDataService from "../services/RecipeService";
 
 const recipeDataService = new RecipeDataService();
 
-function Recipes() {
+function RecipesList() {
     const { id }= useParams();
-    const [currentRecipe, setCurrentRecipe] = useState({});
+    const [currentRecipe, setCurrentRecipe] = useState();
 
-    const getRecipe = id => {
+    const getRecipe = (id) => {
         recipeDataService.getRecipe(id)
             .then(res => {
                 setCurrentRecipe(res.data);
@@ -61,4 +61,4 @@ function Recipes() {
     );
 }
 
-export default Recipes;
+export default RecipesList;

@@ -20,4 +20,8 @@ export default class RecipeDataService {
         const url = `${API_URL}/api/categories/`;
         return axios.get(url).then(res => res.data);
     }
+    getRecipeCategory (id) {
+        const url = `${API_URL}/api/categories/${id}`;
+        return axios.get(url).then(res => res.data);
+    }
 }
