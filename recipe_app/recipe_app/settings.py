@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'backend_api',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -57,16 +58,23 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Recipe App Swagger API',
+    'DESCRIPTION': 'Recipe App Swagger API description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SERVE_PERMISSIONS': ['rest_framework.permissions.AllowAny'],
+    # OTHER SETTINGS
 }
 
 CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ALLOWED_ORIGINS = (
-    'http://localhost:8000',
     'http://localhost:3000',
-    'http://192.168.1.5:3000',
-    'http://192.168.1.5:8000',
 )
 
 ROOT_URLCONF = 'recipe_app.urls'

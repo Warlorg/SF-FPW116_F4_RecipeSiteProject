@@ -1,64 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import RecipeDataService from "../services/RecipeService";
+import axios from "axios";
+import "../styles/RecipesList.css";
 
-const recipeDataService = new RecipeDataService();
+export default function RecipesList() {
+    const params = useParams();
+    const [currentRecipe, setCurrentRecipe] = useState({});
+    const baseUrl = 'http://localhost:8000/api/recipes';
 
-function RecipesList() {
-    const { id }= useParams();
-    const [currentRecipe, setCurrentRecipe] = useState();
-
-    const getRecipe = (id) => {
-        recipeDataService.getRecipe(id)
-            .then(res => {
+    useEffect(() => {
+        axios.get(`${baseUrl}/${params.id}`)
+            .then((res) => {
                 setCurrentRecipe(res.data);
                 console.log(res.data);
             })
             .catch(err => {
                 console.log(err);
             });
-    };
-    useEffect(() => {
-        if (id)
-            getRecipe(id);
-    }, [id]);
+    },[params]);
 
     return (
-        <div>
-            {currentRecipe ? (
-                <div className="edit-form">
-                  <h4>Tutorial</h4>
-                  <form>
-                    <div className="form-group">
-                      <label htmlFor="title">Title</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="title"
-                        name="title"
-                        value={currentRecipe.title}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="description">Description</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="description"
-                        name="description"
-                        value={currentRecipe.description}
-                      />
-                    </div>
-                  </form>
-                </div>
-            ) : (
-                <div>
-                    <br />
-                    <p>Please click on a Recipe...</p>
-                </div>
-            )}
-        </div>
-    );
+    <React.Fragment>
+      <div className="recipe-container">
+        <div className="title">Recipe:</div>
+        <div className="recipe-title">{currentRecipe.title}</div>
+        <div className="title">Description:</div>
+        <div className="recipe-description">{currentRecipe.description}</div>
+        <img src={currentRecipe.photo} alt="Not available" />
+      </div>
+    </React.Fragment>
+  );
 }
-
-export default RecipesList;
